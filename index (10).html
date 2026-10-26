@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#030a12">
+<meta name="description" content="ASTRA — Advanced Security Technology Research Authority. A proposed research-driven initiative engineering the future of security. Founded by Adhi Sankaran.">
+<title>ASTRA | Advanced Security Technology Research Authority</title>
+<style>
+:root{color-scheme:dark;--bg:#030a12;--panel:rgba(8,22,36,.72);--line:rgba(0,229,255,.2);--c:#00e5ff;--g:#39ff9c;--t:#e8f6ff;--m:#8aa4b8;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--t);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:-3;display:block}
+.vig{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(ellipse at 50% 0,rgba(0,140,200,.14),transparent 55%),radial-gradient(ellipse at 50% 100%,rgba(5,3,20,.85),transparent 60%)}
+.scan{position:fixed;left:0;right:0;height:140px;top:-140px;z-index:-1;pointer-events:none;background:linear-gradient(transparent,rgba(0,229,255,.05),transparent);animation:scan 7s linear infinite}
+@keyframes scan{to{top:100%}}
+.wrap{width:min(1120px,calc(100% - 36px));margin:auto}
+header{position:fixed;inset:0 0 auto;z-index:50;height:64px;background:rgba(3,10,18,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.2em}
+.logo svg{width:28px;height:28px}
+nav{display:flex;gap:2px}
+nav a{padding:8px 11px;border-radius:8px;font:600 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#a9c3d4;transition:.2s}
+nav a:hover,nav a.on{color:#021018;background:var(--c)}
+nav a.f{border:1px solid var(--g);color:var(--g)}
+.bg{display:none;background:none;border:1px solid var(--line);color:var(--c);border-radius:8px;padding:8px 11px;font:700 11px var(--mono)}
+.prog{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--c),var(--g));z-index:99;box-shadow:0 0 10px var(--c)}
+section{padding:110px 0 40px;position:relative}
+.hero{min-height:100vh;display:flex;align-items:center;padding:90px 0 60px}
+.hg{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+.tag{font:700 11px var(--mono);letter-spacing:.22em;color:var(--g);display:flex;align-items:center;gap:10px}
+.tag i{width:8px;height:8px;border-radius:50%;background:var(--g);animation:p 1.8s infinite}
+@keyframes p{0%{box-shadow:0 0 0 0 rgba(57,255,156,.6)}100%{box-shadow:0 0 0 12px transparent}}
+.glitch{font-size:clamp(70px,13vw,170px);font-weight:900;letter-spacing:.06em;line-height:1;margin:14px 0 6px;position:relative;display:inline-block;background:linear-gradient(180deg,#fff,var(--c));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px rgba(0,229,255,.35))}
+.glitch::before,.glitch::after{content:attr(data-t);position:absolute;inset:0;background:inherit;-webkit-background-clip:text;background-clip:text;color:transparent}
+.glitch::before{animation:g1 4s infinite;clip-path:inset(0 0 60% 0);transform:translateX(-3px);opacity:.8}
+.glitch::after{animation:g2 4s infinite;clip-path:inset(60% 0 0 0);transform:translateX(3px);opacity:.8;filter:hue-rotate(120deg)}
+@keyframes g1{0%,90%,100%{transform:translateX(0)}92%{transform:translateX(-7px)}95%{transform:translateX(5px)}}
+@keyframes g2{0%,88%,100%{transform:translateX(0)}91%{transform:translateX(7px)}94%{transform:translateX(-5px)}}
+.full{font:700 clamp(13px,2vw,17px) var(--mono);letter-spacing:.2em;color:var(--c);text-transform:uppercase}
+.slogan{font-size:clamp(18px,2.6vw,26px);color:var(--t);margin:20px 0 6px;min-height:1.6em}
+.cur{display:inline-block;width:10px;height:1em;background:var(--c);vertical-align:-3px;animation:b 1s steps(1) infinite}
+@keyframes b{50%{opacity:0}}
+.sub{color:var(--m);max-width:560px}
+.row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:10px;border:1px solid var(--line);font-weight:700;font-size:14px;background:rgba(0,229,255,.06);color:var(--t);transition:.2s;cursor:pointer;font-family:inherit}
+.btn:hover{border-color:var(--c);transform:translateY(-2px);box-shadow:0 0 24px rgba(0,229,255,.2)}
+.btn.p{background:var(--c);color:#021018;border-color:var(--c)}
+.hint{font:600 10.5px var(--mono);letter-spacing:.16em;color:#5f8ba3;margin-top:26px;text-transform:uppercase}
+.k{font:700 11px var(--mono);letter-spacing:.22em;color:var(--c);text-transform:uppercase}
+h2{font-size:clamp(30px,4.6vw,54px);letter-spacing:-.025em;line-height:1.1;margin:10px 0 14px}
+h2 em{font-style:normal;background:linear-gradient(90deg,var(--c),var(--g));-webkit-background-clip:text;background-clip:text;color:transparent}
+.bar{width:72px;height:3px;background:linear-gradient(90deg,var(--c),transparent);margin:18px 0 34px;border-radius:3px}
+p{margin:0 0 14px;color:#b5cada}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px;backdrop-filter:blur(10px);position:relative;overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s;will-change:transform}
+.card::before{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--c),transparent);transform:translateX(-100%);transition:transform .8s}
+.card:hover{border-color:rgba(0,229,255,.55);box-shadow:0 20px 50px rgba(0,0,0,.4),0 0 30px rgba(0,229,255,.08)}
+.card:hover::before{transform:translateX(100%)}
+.card.rv.in{transition:transform .15s ease-out,border-color .25s,box-shadow .25s,opacity .8s}
+.card h3{margin:0 0 10px;font-size:21px}
+.card p:last-child{margin:0}
+.n{font:700 11px var(--mono);letter-spacing:.18em;color:var(--g);margin-bottom:10px}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:22px}
+.stats div{text-align:center;padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.stats b{display:block;font-size:46px;color:var(--c);line-height:1.1}.stats span{color:var(--m);font:11px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tabs button{background:rgba(0,229,255,.05);border:1px solid var(--line);color:#b4cddc;border-radius:10px;padding:10px 14px;font:700 11px var(--mono);letter-spacing:.06em;cursor:pointer;transition:.2s}
+.tabs button.on,.tabs button:hover{background:var(--c);color:#021018;border-color:var(--c)}
+#dv{min-height:190px}
+#dv h3{font-size:26px}
+.eg{border-left:3px solid var(--g);padding:4px 0 4px 18px;margin:14px 0;color:#c4d8e6}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;counter-reset:s}
+.flow .card{counter-increment:s;padding-top:46px}
+.flow .card::after{content:"0" counter(s);position:absolute;top:12px;right:18px;font:900 34px var(--mono);color:rgba(0,229,255,.18)}
+.tl{position:relative;margin-left:12px;padding-left:34px;border-left:2px solid var(--line)}
+.tl .card{margin-bottom:16px}
+.tl .card i{position:absolute;left:-43px;top:28px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--c);box-shadow:0 0 14px var(--c)}
+.tl:after{content:"";position:absolute;left:-2px;top:0;width:2px;height:var(--h,0);background:linear-gradient(var(--c),var(--g));box-shadow:0 0 10px var(--c);transition:height .2s}
+.note{border:1px dashed rgba(57,255,156,.45);border-radius:12px;padding:14px 18px;color:#b9f5d8;background:rgba(57,255,156,.05);font-size:14px;margin-top:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chips span{padding:7px 12px;border:1px solid var(--line);border-radius:99px;font:600 11px var(--mono);color:#a5eaff}
+.fd{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+.av{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;font:900 54px var(--mono);color:var(--c);border:2px solid var(--c);position:relative;box-shadow:0 0 40px rgba(0,229,255,.3)}
+.av::before{content:"";position:absolute;inset:-12px;border-radius:50%;border:1px dashed var(--g);animation:sw 12s linear infinite}
+@keyframes sw{to{transform:rotate(360deg)}}
+footer{margin-top:80px;border-top:1px solid var(--line);background:rgba(3,10,18,.85);padding:40px 0 26px;text-align:center}
+footer p{max-width:780px;margin:0 auto 16px;font-size:14px;color:var(--m)}
+footer small{font:11px var(--mono);letter-spacing:.1em;color:#5f7a8c}
+.rv{opacity:0;transform:translateY(34px);transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media(max-width:860px){.bg{display:block}nav{position:fixed;top:64px;inset-inline:0;flex-direction:column;padding:12px;background:rgba(3,10,18,.97);border-bottom:1px solid var(--line);display:none}nav.o{display:flex}.hg{grid-template-columns:1fr}.g2{grid-template-columns:1fr}.fd{grid-template-columns:1fr;justify-items:center;text-align:center}.tl{padding-left:24px}.tl .card i{left:-33px}.hero{align-items:flex-start;padding-top:calc(50vh - 40px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="prog" id="prog"></div><canvas id="gl" aria-hidden="true"></canvas><div class="vig"></div><div class="scan"></div>
+
+<header><div class="wrap nav">
+ <a class="logo" href="#home"><svg viewBox="0 0 40 40" fill="none" stroke="#00e5ff" stroke-width="2"><path d="M20 3 6 9v10c0 9 6 15 14 18 8-3 14-9 14-18V9z"/><path d="M13 26 20 12l7 14M16 21h8" stroke="#39ff9c"/></svg>ASTRA</a>
+ <button class="bg" id="bg">MENU ☰</button>
+ <nav id="nav"><a href="#about">About</a><a href="#aim">Aim</a><a href="#divisions">Divisions</a><a href="#method">Method</a><a href="#ethics">Ethics</a><a href="#roadmap">Roadmap</a><a class="f" href="#founder">Founder</a></nav>
+</div></header>
+
+<main>
+<section class="hero" id="home"><div class="wrap hg">
+ <div>
+  <div class="tag"><i></i> PROPOSED RESEARCH INITIATIVE · EST. IN PROGRESS</div>
+  <h1 class="glitch" data-t="ASTRA">ASTRA</h1>
+  <div class="full">Advanced Security Technology Research Authority</div>
+  <div class="slogan"><span id="ty"></span><span class="cur"></span></div>
+  <p class="sub">A multidisciplinary research initiative at the intersection of cybersecurity, AI, software engineering, digital forensics and secure computing.</p>
+  <div class="row"><a class="btn p" href="#about">Explore ASTRA ↘</a><a class="btn" href="#founder">Meet the founder ↗</a></div>
+  <div class="hint">Move your cursor · scroll to fly through the network</div>
+ </div>
+ <div aria-hidden="true"></div>
+</div></section>
+
+<section id="about"><div class="wrap">
+ <div class="rv"><div class="k">01 / About ASTRA</div><h2>Research first. <em>Not a training centre.</em></h2><div class="bar"></div></div>
+ <div class="g2">
+  <article class="card rv"><p>ASTRA — Advanced Security Technology Research Authority — is a <b>proposed independent technology research initiative</b> focused on exploring, designing, developing and evaluating advanced security technologies and innovative technical solutions.</p><p>It goes beyond conventional technology education by emphasizing original research, experimental development, practical engineering and the creation of new technological capabilities.</p></article>
+  <article class="card rv"><p>Rather than only learning existing tools, ASTRA investigates how technologies work internally, identifies weaknesses and limitations, formulates research questions, builds experimental models and evaluates whether new approaches give measurable improvements.</p><p>Its long-term goal: a research-driven environment where emerging digital threats are studied and new ways to protect infrastructure, intelligent systems, data, devices and connected environments are developed.</p></article>
+ </div>
+ <div class="stats rv"><div><b data-n="6">0</b><span>Research divisions</span></div><div><b data-n="8">0</b><span>Method stages</span></div><div><b data-n="6">0</b><span>Roadmap phases</span></div><div><b data-n="7">0</b><span>Guiding principles</span></div></div>
+</div></section>
+
+<section id="aim"><div class="wrap">
+ <div class="rv"><div class="k">02 / Aim · Vision · Mission</div><h2>Why ASTRA <em>exists.</em></h2><div class="bar"></div></div>
+ <div class="g3">
+  <article class="card rv"><div class="n">CORE AIM</div><h3>Engineer next-generation security.</h3><p>Research, engineer and advance security technologies through original investigation, experimental design and practical innovation — turning ideas into testable concepts, prototypes and documented experiments. Every project starts with a defined problem and ends with evidence-based findings, documented limitations and recommendations.</p></article>
+  <article class="card rv"><div class="n">VISION</div><h3>A recognized research-driven initiative.</h3><p>Build an environment where researchers, engineers and developers collaborate on complex security problems. Long term: research publications, experimental tools, proof-of-concept systems, defensive technologies and laboratories. Recognition must be earned through quality, reproducibility and integrity — not claimed.</p></article>
+  <article class="card rv"><div class="n">MISSION</div><h3>Research. Build. Evaluate. Share.</h3><p>Conduct structured research into advanced security technologies, find weaknesses in existing systems, develop and evaluate defensive solutions, and contribute useful knowledge — through authorized testing, controlled experiments, secure development and evidence-based assessment.</p></article>
+ </div>
+ <article class="card rv" style="margin-top:18px"><div class="n">R&amp;D PHILOSOPHY</div><h3>Questions, hypotheses, experiments — and honest results.</h3>
+  <p>Learning supports the research; it is never the final goal. ASTRA prioritizes evidence over assumptions, reproducibility over unsupported claims, and technical integrity over publicity. Negative results and failed prototypes are valuable when recorded honestly.</p>
+  <div class="eg">Instead of studying monitoring → investigate whether a <b>lightweight monitoring architecture</b> detects suspicious activity with lower resource use.</div>
+  <div class="eg">Instead of learning AI → evaluate whether a carefully designed <b>ML model</b> improves detection of specific malicious behaviour at an acceptable false-positive rate.</div>
+  <div class="eg">Instead of studying secure software → build a prototype that detects <b>selected coding weaknesses</b> and test it against a documented benchmark.</div>
+ </article>
+</div></section>
+
+<section id="divisions"><div class="wrap">
+ <div class="rv"><div class="k">03 / Core research divisions</div><h2>Six fronts of <em>investigation.</em></h2><div class="bar"></div></div>
+ <div class="tabs rv" id="tabs"></div>
+ <article class="card rv" id="dv"></article>
+ <div class="rv" style="margin-top:46px"><div class="k">Prototype development</div><h2 style="font-size:clamp(26px,3.6vw,40px)">Original technology, <em>not just reviews.</em></h2>
+  <p style="max-width:780px">Each prototype must address a clearly defined problem: literature review → comparison of existing solutions → requirements → design → controlled implementation → testing → refinement. Possible future projects:</p>
+  <div class="chips"><span>Lightweight defensive monitoring agent</span><span>Automated security-log analysis platform</span><span>Privacy-aware anomaly detection</span><span>Secure configuration auditing framework</span><span>Detection-algorithm research platform</span><span>Pre-deployment weakness finder for developers</span></div>
+  <div class="note">These are examples of possible future projects — <b>not claims that such systems have already been built.</b> No prototype is called production-ready until reliability, limitations and security implications are evaluated.</div></div>
+</div></section>
+
+<section id="method"><div class="wrap">
+ <div class="rv"><div class="k">04 / Research methodology</div><h2>Structured, testable, <em>credible.</em></h2><div class="bar"></div></div>
+ <div class="flow">
+  <article class="card rv"><h3>Define the problem</h3><p>Explain why it matters and what gap the work addresses.</p></article>
+  <article class="card rv"><h3>Review existing work</h3><p>Study literature and current solutions and their limits.</p></article>
+  <article class="card rv"><h3>Ask a research question</h3><p>Set measurable objectives before choosing a method.</p></article>
+  <article class="card rv"><h3>Design the solution</h3><p>Identify resources and build an experimental prototype.</p></article>
+  <article class="card rv"><h3>Test in control</h3><p>Use datasets, benchmarks, simulations or authorized systems.</p></article>
+  <article class="card rv"><h3>Compare to baselines</h3><p>Analyze against predefined criteria, consistently recorded.</p></article>
+  <article class="card rv"><h3>Document everything</h3><p>Objective, method, test conditions, results, limitations, future work.</p></article>
+  <article class="card rv"><h3>Review &amp; reproduce</h3><p>Version-controlled code, documented dependencies, independent review. Claims need evidence — not marketing.</p></article>
+ </div>
+</div></section>
+
+<section id="ethics"><div class="wrap">
+ <div class="rv"><div class="k">05 / Ethics &amp; responsible research</div><h2>Security is <em>engineered responsibly.</em></h2><div class="bar"></div></div>
+ <div class="g3">
+  <article class="card rv"><div class="n">AUTHORIZATION</div><h3>Only permitted systems.</h3><p>Research only on systems owned by the researcher or with explicit permission — using isolated labs, test networks, synthetic data or intentionally vulnerable training systems.</p></article>
+  <article class="card rv"><div class="n">NOT ACCEPTABLE</div><h3>Zero unauthorized methods.</h3><p>Unauthorized access, credential theft, covert surveillance, destructive testing and disruption of third-party systems are never acceptable research methods.</p></article>
+  <article class="card rv"><div class="n">DISCLOSURE</div><h3>Responsible by default.</h3><p>Serious vulnerabilities are documented responsibly, sensitive data is not accessed unnecessarily, the affected party is notified and disclosure is coordinated to reduce risk.</p></article>
+  <article class="card rv"><div class="n">PRIVACY</div><h3>Data with care.</h3><p>Personal data, ML datasets and digital evidence require consent, minimization, secure storage and retention rules.</p></article>
+  <article class="card rv"><div class="n">SAFEGUARDS</div><h3>Assess misuse.</h3><p>Any public tool is reviewed for potential misuse and ships with safeguards, documentation and limitations. Ethics is a core engineering requirement.</p></article>
+  <article class="card rv"><div class="n">PUBLICATIONS</div><h3>Facts vs. hypotheses.</h3><p>Reports separate facts from hypotheses and plans, state test conditions and limits, and credit all sources. Partnerships, certifications, patents and recognition are never claimed before they exist.</p></article>
+ </div>
+</div></section>
+
+<section id="roadmap"><div class="wrap">
+ <div class="rv"><div class="k">06 / Development roadmap</div><h2>The path <em>ahead.</em></h2><div class="bar"></div></div>
+ <div class="tl" id="tl">
+  <article class="card rv"><i></i><div class="n">PHASE 01</div><h3>Foundation &amp; Research Framework</h3><p>Establish identity, principles, documentation standards, first areas of investigation and project-selection criteria.</p></article>
+  <article class="card rv"><i></i><div class="n">PHASE 02</div><h3>Research &amp; Feasibility</h3><p>Review existing work, identify a research gap, formulate a testable question and a methodology; check it can be done safely.</p></article>
+  <article class="card rv"><i></i><div class="n">PHASE 03</div><h3>Prototype Engineering</h3><p>Build a small proof of concept in a controlled environment with version control and documented design decisions.</p></article>
+  <article class="card rv"><i></i><div class="n">PHASE 04</div><h3>Testing &amp; Evaluation</h3><p>Define criteria, test against baselines, analyze errors and limits, improve where evidence supports it, seek independent feedback.</p></article>
+  <article class="card rv"><i></i><div class="n">PHASE 05</div><h3>Documentation &amp; Publication</h3><p>Write the technical report and publish when safe, lawful and consistent with responsible disclosure.</p></article>
+  <article class="card rv"><i></i><div class="n">PHASE 06</div><h3>Expansion &amp; Collaboration</h3><p>Pick next projects, improve processes and explore genuine collaborations — expanding only when capacity and evidence justify it.</p></article>
+ </div>
+ <div class="note rv">This roadmap is a proposed plan. Progress and achievements will be updated only after the corresponding work has been performed.</div>
+ <div class="g2" style="margin-top:34px">
+  <article class="card rv"><div class="n">LONG-TERM OBJECTIVES</div><p>A consistent research workflow, original prototypes, well-documented findings, better defensive practice and collaborations that support innovation. With capacity: a research laboratory, specialist teams, open-source defensive tools, benchmark platforms and validated products.</p><div class="chips"><span>AI-assisted threat detection</span><span>Automated defensive analysis</span><span>Privacy-enhancing systems</span><span>Secure device architectures</span><span>Resilient infrastructure</span></div></article>
+  <article class="card rv"><div class="n">GUIDING PRINCIPLES</div><div class="chips" style="margin:0 0 14px"><span>Scientific curiosity</span><span>Engineering discipline</span><span>Originality</span><span>Integrity</span><span>Accountability</span><span>Privacy</span><span>Responsible innovation</span></div><p>Success is measured by research quality, reproducible experiments, validated improvements, transparent documentation and responsible conduct — not by the number of tools studied.</p></article>
+ </div>
+</div></section>
+
+<section id="founder"><div class="wrap">
+ <div class="rv"><div class="k">07 / Founder &amp; research leadership</div><h2>Led by <em>Adhi Sankaran.</em></h2><div class="bar"></div></div>
+ <article class="card rv fd">
+  <div class="av">AS</div>
+  <div><div class="n">FOUNDER &amp; INITIATIVE LEAD</div><h3 style="font-size:30px">Adhi Sankaran</h3>
+   <p>Founder of ASTRA, responsible for defining the research direction, setting priorities, coordinating technical development, maintaining documentation standards and keeping every activity aligned with the mission and ethical guidelines. At this early stage, the founder also acts as primary researcher and developer.</p>
+   <div class="row" style="margin-top:14px"><a class="btn p" href="https://adhisankaran-six.vercel.app/" target="_blank" rel="noopener noreferrer">View portfolio ↗</a></div>
+  </div>
+ </article>
+ <article class="card rv" style="margin-top:18px"><div class="n">PROPOSED STRUCTURE</div><p>As ASTRA grows it may adopt: Research &amp; Technical Leadership · Cybersecurity Research · AI &amp; Intelligent Systems · Software &amp; Systems Engineering · Digital Forensics &amp; Threat Intelligence · Research Documentation &amp; Ethics. Early on, one person may perform several of these functions; divisions are added only with qualified contributors, resources and real need. Titles reflect real responsibilities and never imply a larger team than exists.</p></article>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+ <p><b>ASTRA — Advanced Security Technology Research Authority</b> is a proposed research-driven technology initiative dedicated to the investigation, engineering and development of advanced security technologies — through structured experimentation, evidence-based evaluation, responsible disclosure and transparent documentation.</p>
+ <p style="color:var(--c);font-weight:700;letter-spacing:.06em">Research Beyond Boundaries. Engineer the Future.</p>
+ <small>© <span id="yr"></span> ASTRA · Founded by <a href="https://adhisankaran-six.vercel.app/" target="_blank" rel="noopener noreferrer" style="color:var(--g)">Adhi Sankaran</a></small>
+</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+$('#yr').textContent=new Date().getFullYear();
+$('#bg').onclick=()=>$('#nav').classList.toggle('o');
+$$('nav a').forEach(a=>a.onclick=()=>$('#nav').classList.remove('o'));
+
+/* typing slogan */
+const sl='Research Beyond Boundaries. Engineer the Future of Security.';let i=0;
+(function t(){$('#ty').textContent=sl.slice(0,++i);if(i<sl.length)setTimeout(t,45)})();
+
+/* reveal + counters */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');e.target.querySelectorAll('[data-n]').forEach(c=>{const n=+c.dataset.n;let v=0;const iv=setInterval(()=>{c.textContent=++v;if(v>=n)clearInterval(iv)},110)});io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
+$$('.rv').forEach(e=>io.observe(e));
+
+/* 3D card tilt */
+if(matchMedia('(hover:hover)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
+ $$('.card').forEach(c=>{
+  c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
+   c.style.transform='perspective(900px) rotateX('+(-py*5).toFixed(2)+'deg) rotateY('+(px*7).toFixed(2)+'deg) translateZ(0)'});
+  c.addEventListener('pointerleave',()=>{c.style.transform=''});
+ });
+}
+
+/* divisions */
+const D=[
+['Cybersecurity','Cybersecurity Research & Engineering','Investigates defensive security architectures, vulnerability discovery in authorized environments, threat modelling, attack-surface analysis, secure system design, endpoint, network and application security, identity & access management and security automation. Goal: understand how systems fail and how to prevent, detect, investigate and recover from incidents. Outputs: defensive prototypes, assessment frameworks, technical reports, validated recommendations.'],
+['AI & Intelligent Security','Artificial Intelligence & Intelligent Security Systems','Applies machine learning, statistical analysis and AI-assisted reasoning to security: anomaly detection, phishing identification, suspicious-behaviour classification, automated log analysis, unusual network activity and alert prioritization. Evaluates not only detection performance but reliability, bias, explainability, computational cost, privacy and the risk of wrong predictions.'],
+['Software & Systems','Advanced Software & Systems Engineering','Designs reliable software, efficient architectures, secure APIs, automation frameworks, development tools and experimental computing systems that support security investigations. Focus on maintainability, performance, scalability, code quality, testing and secure-by-design development.'],
+['Forensics & Intel','Digital Forensics & Threat Intelligence','Examines digital evidence, interprets security events, studies malicious activity and finds patterns in public threat information: forensic workflow design, metadata analysis, timeline reconstruction, malware-behaviour analysis in isolated authorized environments and tools to organize indicators — respecting privacy, evidence integrity and law.'],
+['Privacy & Secure Computing','Privacy & Secure Computing Research','Explores technologies that reduce data exposure and strengthen confidentiality, integrity and availability: privacy-preserving analytics, secure authentication, access-control models, cryptographic application design, secure storage and trustworthy architecture. Nothing is called secure without proper technical review and testing.'],
+['Emerging Tech','Emerging Technology Research','As expertise and resources allow, studies security implications of cloud infrastructure, IoT, embedded systems, edge computing, distributed systems and robotics — and practical ways to make them more resilient.']];
+const tb=$('#tabs'),dv=$('#dv');
+D.forEach((d,k)=>{const b=document.createElement('button');b.textContent=d[0];b.onclick=()=>sel(k);tb.appendChild(b)});
+function sel(k){[...tb.children].forEach((b,j)=>b.classList.toggle('on',j===k));dv.innerHTML='<div class="n">DIVISION 0'+(k+1)+'</div><h3>'+D[k][1]+'</h3><p>'+D[k][2]+'</p>';dv.animate([{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'none'}],{duration:350});pulse=1}
+let pulse=0;
+sel(0);
+
+/* scroll progress, spy, timeline */
+const secs=$$('section'),links=$$('nav a'),tl=$('#tl');let prog=0;
+function sc(){
+ const h=document.documentElement;prog=Math.max(0,Math.min(1,scrollY/Math.max(1,h.scrollHeight-innerHeight)));
+ $('#prog').style.width=prog*100+'%';
+ let id='home';secs.forEach(s=>{if(s.getBoundingClientRect().top<=innerHeight*.4)id=s.id});
+ links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));
+ const r=tl.getBoundingClientRect();tl.style.setProperty('--h',Math.max(0,Math.min(r.height,innerHeight*.6-r.top))+'px');
+}
+addEventListener('scroll',sc,{passive:true});sc();
+
+/* ================= 3D SCENE ================= */
+if(!window.THREE)return;
+const T=THREE,cv=$('#gl');
+let renderer;
+try{renderer=new T.WebGLRenderer({canvas:cv,antialias:true,alpha:true,powerPreference:'high-performance'})}catch(e){return}
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setClearColor(0x000000,0);
+const scene=new T.Scene();
+scene.fog=new T.FogExp2(0x030a12,.028);
+const cam=new T.PerspectiveCamera(55,1,.1,200);cam.position.set(0,0,11);
+const CY=0x00e5ff,GR=0x39ff9c;
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const sp=reduce?0:1;
+
+const hero=new T.Group();scene.add(hero);
+
+/* shield (extruded, edges + faint fill) */
+const sh=new T.Shape();
+sh.moveTo(0,1.35);sh.lineTo(-1,.95);sh.lineTo(-1,.1);sh.bezierCurveTo(-1,-.8,-.45,-1.25,0,-1.5);sh.bezierCurveTo(.45,-1.25,1,-.8,1,.1);sh.lineTo(1,.95);sh.lineTo(0,1.35);
+const shG=new T.ExtrudeGeometry(sh,{depth:.35,bevelEnabled:false});shG.translate(0,0,-.175);
+const shield=new T.Group();
+shield.add(new T.Mesh(shG,new T.MeshBasicMaterial({color:0x06324a,transparent:true,opacity:.55})));
+shield.add(new T.LineSegments(new T.EdgesGeometry(shG),new T.LineBasicMaterial({color:GR})));
+/* "A" glyph on shield front */
+const A=new T.BufferGeometry().setFromPoints([new T.Vector3(-.5,-.65,.2),new T.Vector3(0,.55,.2),new T.Vector3(0,.55,.2),new T.Vector3(.5,-.65,.2),new T.Vector3(-.26,-.15,.2),new T.Vector3(.26,-.15,.2)]);
+shield.add(new T.LineSegments(A,new T.LineBasicMaterial({color:CY})));
+const A2=A.clone();A2.translate(0,0,-.4);shield.add(new T.LineSegments(A2,new T.LineBasicMaterial({color:CY,transparent:true,opacity:.5})));
+shield.scale.setScalar(.95);hero.add(shield);
+
+/* wire icosahedron shell + nodes */
+const ico=new T.IcosahedronGeometry(2.5,1);
+const shell=new T.LineSegments(new T.WireframeGeometry(ico),new T.LineBasicMaterial({color:CY,transparent:true,opacity:.28}));
+hero.add(shell);
+const nodes=new T.Points(ico,new T.PointsMaterial({color:GR,size:.09,transparent:true,opacity:.95}));
+hero.add(nodes);
+const ico2=new T.IcosahedronGeometry(3.3,2);
+const outer=new T.LineSegments(new T.WireframeGeometry(ico2),new T.LineBasicMaterial({color:CY,transparent:true,opacity:.08}));
+hero.add(outer);
+
+/* orbit rings with data packets */
+const rings=[],packets=[];
+[[3.5,0,.4,.25,1],[4.1,1.2,0,.9,-1.3],[4.7,.3,.9,-.5,.8]].forEach((c,idx)=>{
+ const r=new T.Mesh(new T.TorusGeometry(c[0],.014,8,160),new T.MeshBasicMaterial({color:idx==1?GR:CY,transparent:true,opacity:.55}));
+ r.rotation.set(c[1]+1.2,c[2],c[3]);r.userData.s=c[4];hero.add(r);rings.push(r);
+ for(let k=0;k<3;k++){
+  const p=new T.Mesh(new T.SphereGeometry(.07,12,12),new T.MeshBasicMaterial({color:k%2?GR:0xffffff}));
+  p.userData={r:c[0],a:Math.random()*6.28,v:(.25+Math.random()*.35)*(k%2?1:-1)};r.add(p);packets.push(p);
+ }
+});
+
+/* floating data fragments */
+const frags=[];
+const fg=[new T.OctahedronGeometry(.18),new T.TetrahedronGeometry(.2),new T.BoxGeometry(.24,.24,.24)];
+for(let k=0;k<46;k++){
+ const m=new T.LineSegments(new T.EdgesGeometry(fg[k%3]),new T.LineBasicMaterial({color:k%4?CY:GR,transparent:true,opacity:.6}));
+ const R=6+Math.random()*10,th=Math.random()*6.28,ph=Math.acos(2*Math.random()-1);
+ m.position.set(R*Math.sin(ph)*Math.cos(th),R*Math.sin(ph)*Math.sin(th)*.7,R*Math.cos(ph)-4);
+ m.userData={rx:(Math.random()-.5)*.8,ry:(Math.random()-.5)*.8,f:Math.random()*6,b:m.position.y};
+ scene.add(m);frags.push(m);
+}
+
+/* depth starfield */
+const N=2200,pos=new Float32Array(N*3);
+for(let k=0;k<N;k++){const R=14+Math.random()*60,th=Math.random()*6.28,ph=Math.acos(2*Math.random()-1);
+ pos[k*3]=R*Math.sin(ph)*Math.cos(th);pos[k*3+1]=R*Math.sin(ph)*Math.sin(th);pos[k*3+2]=R*Math.cos(ph)}
+const sg=new T.BufferGeometry();sg.setAttribute('position',new T.BufferAttribute(pos,3));
+const stars=new T.Points(sg,new T.PointsMaterial({color:0x7fdfff,size:.07,transparent:true,opacity:.7,sizeAttenuation:true}));
+scene.add(stars);
+
+/* perspective grid floor */
+const grid=new T.GridHelper(120,60,CY,CY);grid.position.y=-7;
+grid.material.transparent=true;grid.material.opacity=.09;scene.add(grid);
+
+function rs(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+addEventListener('resize',rs);rs();
+
+const ms={x:0,y:0,tx:0,ty:0};
+addEventListener('pointermove',e=>{ms.tx=e.clientX/innerWidth*2-1;ms.ty=e.clientY/innerHeight*2-1});
+
+const clock=new T.Clock();let sp2=0,vis=true;
+document.addEventListener('visibilitychange',()=>{vis=!document.hidden;if(vis)loop()});
+function loop(){
+ if(!vis)return;requestAnimationFrame(loop);
+ const t=clock.getElapsedTime()*sp,dt=Math.min(clock.getDelta(),.05);
+ ms.x+=(ms.tx-ms.x)*.05;ms.y+=(ms.ty-ms.y)*.05;
+ sp2+=(prog-sp2)*.06;
+ const desk=innerWidth>860;
+
+ /* hero object path follows scroll */
+ const tx=desk?3.6*Math.cos(sp2*Math.PI*6):0;
+ const ty=desk?Math.sin(sp2*Math.PI*4)*.8:(sp2<.03?2.2:0);
+ const sc0=desk?(sp2<.03?1:.82):(sp2<.03?.62:.5);
+ hero.position.x+=(tx-hero.position.x)*.06;
+ hero.position.y+=(ty-hero.position.y)*.06;
+ const s=hero.scale.x+(sc0+Math.sin(t*1.5)*.01+pulse*.08-hero.scale.x)*.06;hero.scale.setScalar(s);pulse*=.92;
+ hero.rotation.y=t*.18+sp2*9+ms.x*.5;
+ hero.rotation.x=Math.sin(t*.25)*.12+sp2*2.2+ms.y*.3;
+ shield.rotation.y=Math.sin(t*.6)*.5;
+ shell.rotation.y=-t*.1;outer.rotation.y=t*.06;outer.rotation.x=t*.04;nodes.rotation.y=-t*.1;
+ nodes.material.size=.09+Math.sin(t*3)*.015;
+ rings.forEach(r=>{r.rotation.z+=.0035*r.userData.s*sp});
+ packets.forEach(p=>{const u=p.userData;u.a+=u.v*.02*sp;p.position.set(Math.cos(u.a)*u.r,Math.sin(u.a)*u.r,0)});
+ frags.forEach(f=>{const u=f.userData;f.rotation.x+=u.rx*.01*sp;f.rotation.y+=u.ry*.01*sp;f.position.y=u.b+Math.sin(t*.6+u.f)*.5});
+ stars.rotation.y=t*.01+sp2*1.5;stars.rotation.x=sp2*.6;
+ grid.position.z=(t*.6)%2;
+
+ /* camera fly-through + parallax */
+ cam.position.x+=((ms.x*1.3)-cam.position.x)*.05;
+ cam.position.y+=((-ms.y*.9)-cam.position.y)*.05;
+ cam.position.z=11+Math.sin(sp2*Math.PI*3)*2.2-sp2*3;
+ cam.lookAt(0,0,0);
+ renderer.render(scene,cam);
+}
+loop();
+})();
+</script>
+</body>
+</html>
